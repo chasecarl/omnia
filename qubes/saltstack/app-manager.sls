@@ -3,12 +3,12 @@
 {% set am_vcpus = 10 %}
 {% set dev_name = "dev" %}
 
-{% set emacs_dirpath = app_dirpath + "/emacs" %}
-{% set emacs_build_path = emacs_dirpath + "/build" %}
+{% set emacs_dirpath = "%s/emacs" | format(app_dirpath) %}
+{% set emacs_build_path = "%s/build" | format(emacs_dirpath) %}
 {% set emacs_prefix = "/usr/local" %}
-{% set emacs_compiled_exec_path = emacs_build_path + "/src/emacs" %}
-{% set emacs_install_path = emacs_build_path + "/install" %}
-{% set emacs_library_path = emacs_install_path + emacs_prefix + "/solib" %}
+{% set emacs_compiled_exec_path = "%s/src/emacs" | format(emacs_build_path) %}
+{% set emacs_install_path = "%s/install" | format(emacs_build_path) %}
+{% set emacs_library_path = "%s%s/solib" | format(emacs_install_path, emacs_prefix) %}
 {% set emacs_packaged_filename = "portable-emacs.tar.gz" %}
 
 {{ app_dirpath }}:

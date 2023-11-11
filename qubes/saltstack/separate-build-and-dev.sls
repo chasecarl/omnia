@@ -10,7 +10,7 @@
 {% set dev_name = "dev" %}
 {% set policy_filepath = "/etc/qubes/policy.d/30-user.policy" %}
 # inserting '\\n' before '$' didn't perform cleanup properly
-{% set policy_pattern =  "^qubes.Filecopy \\* " + app_manager_name + " " + dev_name + " allow$" %}
+{% set policy_pattern =  "^qubes.Filecopy \\* %s %s allow$" | format(app_manager_name, dev_name) %}
 
 {% if not pillar.get(cleanup_only_key) %}
 debian-minimal-installed:
