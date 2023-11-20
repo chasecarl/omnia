@@ -1,7 +1,5 @@
 {% set am_vcpus = 10 %}
-# TODO: salt['cmd.shell']('groupmems --list --group qubes')
-#       https://forum.qubes-os.org/t/qubes-salt-beginners-guide/20126
-{% set user = "andrey" %}
+{% set user = salt['cmd.shell']('groupmems --list --group qubes') %}
 {% set cleanup_only_key = "cleanup_only" %}
 # TODO: get the version dynamically
 {% set debian_minimal = "debian-12-minimal" %}
