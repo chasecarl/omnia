@@ -1,0 +1,10 @@
+* Omnia
+My monorepo. For what is a monorepo and why you may want to use it,
+see [[https://monorepo.tools/][monorepo.tools]].
+* TODOs
+** Incorporate other projects
+- what projects
+- decide if we need to save their history
+
+  [[https://medium.com/@chris_72272/keeping-git-history-when-converting-multiple-repos-into-a-monorepo-97641744d928][This article]] describes how to do it with
+  ~--allow-unrelated-histories~. What are the consuquences?
