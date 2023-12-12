@@ -1,0 +1,55 @@
+* Qubes/Saltstack
+Turn your [[https://www.qubes-os.org/][Qubes OS]] configuration into code with [[https://saltproject.io/index.html][SaltStack]], utilizing
+[[https://www.qubes-os.org/doc/salt/][Qubes Salt integration]].
+* Overview
+** dom0 configuration
+Things like global keyboard shortcuts go into ~dom0.sls~.
+*** TODO Add dom0.sls to run.sh
+** domU configuration
+*** Separate build and dev setup
+You may want to have a separate builder qube with some network access,
+to allow your dev qubes to be completely
+offline. ~separate-build-and-dev.sls~ creates qubes for the following
+layout:
+**** Dev template
+~dev.sls~ includes all the software one wants to have in their offline
+dev qubes. This software is managed by App Manager.
+**** Builder template
+~builder-networking.sls~ includes all the tools required to build the
+software for the Dev template.
+**** App Manager qube
+~app-manager.sls~ is based on Builder and it manages the software for
+the Dev template. Right now it only means building software and
+copying it to the Dev template, but in the future it may also update
+the software and do other related things. It has networking
+whitelisted with a firewall to only allow access to Internet resources
+that are required for building.
+* Usage
+1. Enable personal state configuration in Qubes (as per
+   ~/srv/salt/qubes/user-dirs.sls~). On dom0, run:
+   #+begin_src shell
+   sudo qubesctl state.sls qubes.user-dirs
+   #+end_src
+   You should now have ~/srv/user_salt/~ directory.
+2. Archive this project:
+   #+begin_src shell
+   git archive -o qubes-saltstack.tar.gz HEAD ./
+   #+end_src
+   Or, if running from the monorepo root
+   #+begin_src shell
+   git archive -o qubes-saltstack.tar.gz HEAD:qubes/saltstack
+   #+end_src
+3. Move the archive to any qube.
+4. Backup your ~/srv/user_salt/~ (if you had anything there before
+   step 1):
+   #+begin_src shell
+   sudo cp /srv/user_salt /srv/user_salt.bak
+   #+end_src
+5. On dom0, run:
+   #+begin_src shell
+   sudo qvm-run --pass-io <the qube you moved the archive to> cat <path to the archive> | sudo tar -C /srv/user_salt -xzf -
+   #+end_src
+6. Run:
+   #+begin_src shell
+   sudo /srv/user_salt/run.sh
+   #+end_src
